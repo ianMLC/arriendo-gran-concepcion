@@ -49,8 +49,12 @@ def scrape_search(page, commune, property_type, start_url, max_pages):
         try:
             page.wait_for_selector(".andes-money-amount", timeout=15000)
         except Exception:
-            print(f"    page {page_number}: no listings found, stopping")
+            if "No hay publicaciones" in page.content():
+                print(f"    page {page_number}: search has no results")
+            else:
+                print(f"    page {page_number}: no prices found (page may have failed)")
             break
+
 
         new_rows = extract_listings(page.content(), commune, property_type)
         new_ids = {r["id"] for r in new_rows} - seen_ids
@@ -76,6 +80,7 @@ def scrape_search(page, commune, property_type, start_url, max_pages):
             page.wait_for_url(lambda u: u != old_url, timeout=15000)
         except Exception:
             page.wait_for_timeout(4000)
+            
 
     return rows
 

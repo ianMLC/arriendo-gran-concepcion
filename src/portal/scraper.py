@@ -27,7 +27,7 @@ def extract_price(listing):
         value = to_number(integer.get_text())
         
         # Only UF has decimals; Mercado Libre renders them in a separate element
-        decimals = amount.select_one(".andes-money-amount__decimals")
+        decimals = amount.select_one(".andes-money-amount__cents")
         if currency == "UF" and decimals:
             value = to_number(f"{integer.get_text()},{decimals.get_text()}")
         return value, currency
