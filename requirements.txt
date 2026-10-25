@@ -1,0 +1,5 @@
+playwright>=1.45
+beautifulsoup4>=4.12
+pandas>=2.2
+plotly>=5.22
+geopy>=2.4
